@@ -1,0 +1,17 @@
+{
+  "name": "Recovery Journey — رفيق التعافي",
+  "short_name": "Recovery",
+  "description": "Comprehensive recovery companion app with 12-step program, clinical tools, AI coaching, and community support.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

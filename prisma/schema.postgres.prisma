@@ -1,0 +1,453 @@
+// Postgres schema for Vercel / hosted deployment.
+// Local dev continues to use prisma/schema.prisma (SQLite).
+// To use:  DATABASE_URL="postgresql://..." DIRECT_URL="postgresql://..." prisma db push --schema=prisma/schema.postgres.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User model for recovery app
+model User {
+  id              String         @id @default(cuid())
+  name            String?
+  email           String?        @unique
+  password        String?        // For authentication
+  recoveryDate    DateTime?
+  selectedGroup   String?
+  currentStreak   Int            @default(0)  // Consecutive days of daily tasks
+  longestStreak   Int            @default(0)  // Longest streak achieved
+  totalDays       Int            @default(0)  // Total sober days tracked
+  achievements    String?        // JSON array of achievement IDs
+  bio             String?        // User profile bio
+  skills          String?        // JSON array of skills (for helpers)
+  preferences     String?        // JSON for user preferences
+  location        String?        // Location data
+  isAvailable     Boolean        @default(false) // Available to help others
+  averageRating   Float          @default(0)    // Average rating from peers
+  totalRatings    Int            @default(0)    // Total number of ratings
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relations
+  dailyCheckins      DailyCheckin[]
+  stepProgress       StepProgress[]
+  gratitudeEntries   GratitudeEntry[]
+  journalEntries     JournalEntry[]
+  workTasks          WorkTask[]
+  dailyGoals         DailyGoal[]
+  groupChatMessages  GroupChatMessage[]
+  helpRequests       HelpRequest[]       @relation("HelpRequester")
+  providedHelp       HelpRequest[]       @relation("Helper")
+  mentorSessions     Session[]           @relation("MentorSessions")
+  menteeSessions     Session[]           @relation("MenteeSessions")
+  givenReviews       Review[]            @relation("Reviewer")
+  receivedReviews    Review[]            @relation("Reviewee")
+  notifications      Notification[]
+  resources          Resource[]           @relation("ResourceAuthor")
+  clinicalSessions   ClinicalSession[]
+  functionalAnalyses FunctionalAnalysis[]
+  thoughtRecords     ThoughtRecord[]
+  copingSkills       CopingSkill[]
+  relapsePlans       RelapsePlan[]
+  riskAssessments    RiskAssessment[]
+  sessionNotes       SessionNote[]
+  emergencyContacts  EmergencyContact[]
+  userSettings       UserSettings?
+  userAchievements   Achievement[]
+  userStats          UserStats?
+}
+
+// Daily check-in for tracking daily recovery status
+model DailyCheckin {
+  id          String   @id @default(cuid())
+  userId      String
+  date        DateTime @default(now())
+  mood        String   // happy, sad, anxious, calm, stressed, etc.
+  energy      Int      // 1-10 scale
+  stress      String   // low, medium, high
+  triggers    String?  // JSON array of triggers
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Progress tracking for 12-step program
+model StepProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  stepNumber  Int
+  completed   Boolean  @default(false)
+  completedAt DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, stepNumber])
+}
+
+// Gratitude journal entries
+model GratitudeEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  entry       String
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Personal journal entries
+model JournalEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String?
+  content     String
+  mood        String?
+  tags        String?   // JSON array of tags
+  category    String?   // reflection, gratitude, challenge, achievement, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Daily goals for tracking
+model DailyGoal {
+  id          String   @id @default(cuid())
+  userId      String
+  date        DateTime @default(now())
+  title       String
+  completed   Boolean  @default(false)
+  priority    String?  @default("medium") // low, medium, high
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Work tasks for day management
+model WorkTask {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  completed   Boolean  @default(false)
+  priority    String?  @default("medium") // low, medium, high
+  dueDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Group chat messages (for real-time chat)
+model GroupChatMessage {
+  id          String   @id @default(cuid())
+  userId      String
+  userName    String?
+  groupName   String
+  message     String
+  timestamp   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([groupName, timestamp])
+}
+
+// Help requests for peer support
+model HelpRequest {
+  id          String   @id @default(cuid())
+  requesterId String
+  helperId    String?
+  title       String
+  description String
+  category    String   // emotional, practical, advice, mentorship, etc.
+  status      String   @default("pending") // pending, accepted, in_progress, completed, cancelled
+  urgency     String   @default("medium") // low, medium, high, urgent
+  location    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  requester   User     @relation("HelpRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  helper      User?    @relation("Helper", fields: [helperId], references: [id], onDelete: SetNull)
+  sessions    Session[]
+
+  @@index([status, urgency])
+  @@index([requesterId, status])
+}
+
+// Scheduled sessions for mentorship/help
+model Session {
+  id          String   @id @default(cuid())
+  helpRequestId String
+  mentorId    String
+  menteeId    String
+  title       String
+  description String?
+  scheduledAt DateTime
+  duration    Int      @default(60) // duration in minutes
+  status      String   @default("scheduled") // scheduled, in_progress, completed, cancelled
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  helpRequest HelpRequest @relation(fields: [helpRequestId], references: [id], onDelete: Cascade)
+  mentor      User        @relation("MentorSessions", fields: [mentorId], references: [id], onDelete: Cascade)
+  mentee      User        @relation("MenteeSessions", fields: [menteeId], references: [id], onDelete: Cascade)
+
+  @@index([menteeId, status])
+  @@index([mentorId, status])
+  @@index([scheduledAt, status])
+}
+
+// Rating and review system
+model Review {
+  id          String   @id @default(cuid())
+  reviewerId  String
+  revieweeId  String
+  sessionId   String?
+  rating      Int      // 1-5 stars
+  comment     String?
+  createdAt   DateTime @default(now())
+
+  reviewer    User     @relation("Reviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  reviewee    User     @relation("Reviewee", fields: [revieweeId], references: [id], onDelete: Cascade)
+
+  @@index([revieweeId, createdAt])
+}
+
+// Notification system
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  message     String
+  type        String   // help_request, session_reminder, achievement, review, etc.
+  read        Boolean  @default(false)
+  actionUrl   String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+}
+
+// Resource library
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  content     String?  // Full content or summary
+  category    String   // articles, videos, guides, exercises, etc.
+  tags        String?  // JSON array of tags
+  url         String?  // External resource URL
+  authorId    String?
+  isPublic    Boolean  @default(true)
+  views       Int      @default(0)
+  helpful     Int      @default(0) // Helpful votes
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  author      User?    @relation("ResourceAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([category, isPublic])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Clinical models (merged from Sahw)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ClinicalSession {
+  id            String   @id @default(cuid())
+  userId        String
+  sessionType   String   // cbt, dbt, motivational, mindfulness
+  phase         String   @default("assessment")
+  scheduledAt   DateTime @default(now())
+  completedAt   DateTime?
+  status        String   @default("scheduled")
+  therapistName String?
+  notes         String?
+  goals         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@index([userId, scheduledAt])
+}
+
+model FunctionalAnalysis {
+  id            String   @id @default(cuid())
+  userId        String
+  antecedent    String
+  behavior      String
+  consequence   String
+  shortTerm     String?
+  longTerm      String?
+  alternatives  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model ThoughtRecord {
+  id               String   @id @default(cuid())
+  userId           String
+  situation        String
+  automaticThought String
+  emotion          String
+  emotionIntensity Int
+  evidence         String?
+  alternative      String?
+  outcome          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model CopingSkill {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  category      String   @default("cognitive")
+  description   String?
+  effectiveness Int      @default(0)
+  timesUsed     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, category])
+}
+
+model RelapsePlan {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  triggers         String?
+  warningSigns     String?
+  copingStrategies String?
+  supportContacts  String?
+  reasons          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RiskAssessment {
+  id          String   @id @default(cuid())
+  userId      String
+  riskType    String   // suicide, relapse, self_harm
+  severity    String   // low, medium, high, critical
+  score       Int      @default(0)
+  factors     String?
+  notes       String?
+  assessedAt  DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, assessedAt])
+}
+
+model SessionNote {
+  id            String   @id @default(cuid())
+  userId        String
+  sessionId     String?
+  content       String
+  interventions String?
+  goals         String?
+  homework      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model BreathingExercise {
+  id          String   @id @default(cuid())
+  name        String
+  nameAr      String?
+  pattern     String   // e.g. "4-7-8", "box"
+  duration    Int      @default(60)
+  description String?
+  category    String   @default("calm")
+  createdAt   DateTime @default(now())
+}
+
+model EmergencyContact {
+  id           String   @id @default(cuid())
+  userId       String
+  name         String
+  phone        String
+  relationship String?
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isPrimary])
+}
+
+model UserSettings {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  language            String   @default("en")
+  theme               String   @default("light")
+  notifications       Boolean  @default(true)
+  dailyReminderTime   String?
+  crisisContactEnabled Boolean @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  icon        String?
+  category    String   @default("general")
+  points      Int      @default(0)
+  unlockedAt  DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, category])
+  @@index([userId, unlockedAt])
+}
+
+model UserStats {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  totalCheckins         Int      @default(0)
+  totalJournalEntries   Int      @default(0)
+  totalGoalsCompleted   Int      @default(0)
+  totalStepsCompleted   Int      @default(0)
+  totalClinicalSessions Int      @default(0)
+  lastActiveDate        DateTime @default(now())
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
