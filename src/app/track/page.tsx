@@ -138,7 +138,7 @@ export default function TrackPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Current Streak', 'السلسلة الحالية')}</CardTitle>
-              <Flame className="h-4 w-4 text-orange-500" />
+              <Flame className="h-4 w-4 text-warning" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isLoading ? '—' : streak} {t('days', 'يوم')}</div>
@@ -149,7 +149,7 @@ export default function TrackPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Total Check-ins', 'إجمالي التسجيلات')}</CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <CheckCircle2 className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isLoading ? '—' : totalCheckIns}</div>
@@ -160,7 +160,7 @@ export default function TrackPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Avg Mood', 'متوسط المزاج')}</CardTitle>
-              <Heart className="h-4 w-4 text-pink-500" />
+              <Heart className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isLoading ? '—' : `${averageMood.toFixed(1)}/10`}</div>
@@ -206,21 +206,21 @@ export default function TrackPage() {
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-muted-foreground w-12">{t('Mood', 'المزاج')}</span>
                                 <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                                  <div className="h-full bg-pink-500 rounded-full" style={{ width: `${(data.mood / 10) * 100}%` }} />
+                                  <div className="h-full bg-primary rounded-full" style={{ width: `${(data.mood / 10) * 100}%` }} />
                                 </div>
                                 <span className="text-xs w-6">{data.mood}</span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-muted-foreground w-12">{t('Energy', 'الطاقة')}</span>
                                 <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                                  <div className="h-full bg-yellow-500 rounded-full" style={{ width: `${(data.energy / 10) * 100}%` }} />
+                                  <div className="h-full bg-warning rounded-full" style={{ width: `${(data.energy / 10) * 100}%` }} />
                                 </div>
                                 <span className="text-xs w-6">{data.energy}</span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-muted-foreground w-12">{t('Stress', 'الضغط')}</span>
                                 <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                                  <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(data.stress / 10) * 100}%` }} />
+                                  <div className="h-full bg-primary rounded-full" style={{ width: `${(data.stress / 10) * 100}%` }} />
                                 </div>
                                 <span className="text-xs w-6">{data.stress}</span>
                               </div>
@@ -257,8 +257,8 @@ export default function TrackPage() {
                       </div>
                       <Progress value={isLoading ? 0 : (averageEnergy / 10) * 100} className="h-2" />
                     </div>
-                    <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                      <p className="text-sm text-green-700 dark:text-green-400">
+                    <div className="p-4 bg-success-muted rounded-lg">
+                      <p className="text-sm text-success">
                         {t('Great progress! Your mood has been consistently positive this week.', 'تقدم رائع! مزاجك كان إيجابياً باستمرار هذا الأسبوع.')}
                       </p>
                     </div>
@@ -291,7 +291,7 @@ export default function TrackPage() {
                     {checkins.slice(0, 28).map((day) => (
                       <div
                         key={day.id}
-                        className="aspect-square rounded-lg flex items-center justify-center text-sm font-medium bg-green-500 text-white"
+                        className="aspect-square rounded-lg flex items-center justify-center text-sm font-medium bg-success text-white"
                       >
                         {new Date(day.date).getDate()}
                       </div>
@@ -300,7 +300,7 @@ export default function TrackPage() {
                 )}
                 <div className="mt-4 flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-green-500" />
+                    <div className="w-4 h-4 rounded bg-success" />
                     <span>{t('Completed', 'مكتمل')}</span>
                   </div>
                   <div className="flex items-center gap-2">

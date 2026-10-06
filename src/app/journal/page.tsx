@@ -24,11 +24,11 @@ interface JournalEntry {
 }
 
 const MOOD_OPTIONS = [
-  { value: 'great', label: 'Great', labelAr: 'رائع', icon: Sun, color: 'text-yellow-500' },
-  { value: 'good', label: 'Good', labelAr: 'جيد', icon: Cloud, color: 'text-blue-400' },
-  { value: 'okay', label: 'Okay', labelAr: 'عادي', icon: Cloud, color: 'text-gray-400' },
-  { value: 'low', label: 'Low', labelAr: 'منخفض', icon: CloudRain, color: 'text-blue-600' },
-  { value: 'difficult', label: 'Difficult', labelAr: 'صعب', icon: Wind, color: 'text-red-500' },
+  { value: 'great', label: 'Great', labelAr: 'رائع', icon: Sun, color: 'text-warning' },
+  { value: 'good', label: 'Good', labelAr: 'جيد', icon: Cloud, color: 'text-primary/70' },
+  { value: 'okay', label: 'Okay', labelAr: 'عادي', icon: Cloud, color: 'text-muted-foreground' },
+  { value: 'low', label: 'Low', labelAr: 'منخفض', icon: CloudRain, color: 'text-primary' },
+  { value: 'difficult', label: 'Difficult', labelAr: 'صعب', icon: Wind, color: 'text-destructive' },
 ]
 
 const TAG_OPTIONS = ['gratitude', 'reflection', 'challenge', 'milestone', 'craving', 'growth', 'relationship', 'work']
@@ -173,7 +173,7 @@ export default function JournalPage() {
 
   const getMoodColor = (mood: string) => {
     const moodOption = MOOD_OPTIONS.find(m => m.value === mood)
-    return moodOption?.color || 'text-gray-400'
+    return moodOption?.color || 'text-muted-foreground'
   }
 
   return (
@@ -268,7 +268,7 @@ export default function JournalPage() {
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button variant="ghost" size="sm" onClick={() => deleteEntry(entry.id)}>
-                          <Trash2 className="w-4 h-4 text-red-500" />
+                          <Trash2 className="w-4 h-4 text-destructive" />
                         </Button>
                       </div>
                     </div>

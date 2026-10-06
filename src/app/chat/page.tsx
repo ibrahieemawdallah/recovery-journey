@@ -139,13 +139,13 @@ export default function ChatPage() {
       <div className="border-b bg-card">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-foreground flex items-center justify-center">
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
               <h1 className="font-semibold">{t('AI Recovery Coach', 'مدرب التعافي الذكي')}</h1>
               <p className="text-xs text-muted-foreground flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-success inline-block" />
                 {t('Always here for you', 'دائماً هنا من أجلك')}
               </p>
             </div>
@@ -170,7 +170,7 @@ export default function ChatPage() {
               className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
             >
               <Avatar className="w-8 h-8">
-                <AvatarFallback className={message.role === 'assistant' ? 'bg-gradient-to-br from-emerald-400 to-teal-500' : 'bg-muted'}>
+                <AvatarFallback className={message.role === 'assistant' ? 'bg-gradient-to-br from-primary to-accent-foreground' : 'bg-muted'}>
                   {message.role === 'assistant' ? <Bot className="w-4 h-4 text-white" /> : <User className="w-4 h-4" />}
                 </AvatarFallback>
               </Avatar>
@@ -191,7 +191,7 @@ export default function ChatPage() {
           {isTyping && (
             <div className="flex gap-3">
               <Avatar className="w-8 h-8">
-                <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-teal-500">
+                <AvatarFallback className="bg-gradient-to-br from-primary to-accent-foreground">
                   <Bot className="w-4 h-4 text-white" />
                 </AvatarFallback>
               </Avatar>

@@ -207,7 +207,7 @@ export default function ProfilePage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent-foreground rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
             <Heart className="w-8 h-8 text-white" />
           </div>
           <p className="text-muted-foreground">{t('Loading...', 'جاري التحميل...')}</p>
@@ -224,7 +224,7 @@ export default function ProfilePage() {
           <CardContent className="pt-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <Avatar className="w-24 h-24">
-                <AvatarFallback className="text-3xl bg-gradient-to-br from-emerald-400 to-teal-500 text-white">
+                <AvatarFallback className="text-3xl bg-gradient-to-br from-primary to-accent-foreground text-white">
                   {userData?.name ? userData.name.charAt(0).toUpperCase() : <User className="w-10 h-10" />}
                 </AvatarFallback>
               </Avatar>
@@ -312,7 +312,7 @@ export default function ProfilePage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Days Sober', 'أيام الصحو')}</CardTitle>
-              <Flame className="h-4 w-4 text-orange-500" />
+              <Flame className="h-4 w-4 text-warning" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{daysSinceRecovery}</div>
@@ -323,7 +323,7 @@ export default function ProfilePage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Steps Done', 'الخطوات المكتملة')}</CardTitle>
-              <BookOpen className="h-4 w-4 text-blue-500" />
+              <BookOpen className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{completedSteps.length}/12</div>
@@ -334,7 +334,7 @@ export default function ProfilePage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Check-ins', 'التسجيلات')}</CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <CheckCircle2 className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalCheckIns}</div>
@@ -345,7 +345,7 @@ export default function ProfilePage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Journal Entries', 'إدخالات المفكرة')}</CardTitle>
-              <Heart className="h-4 w-4 text-pink-500" />
+              <Heart className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{journalEntries}</div>
@@ -365,17 +365,17 @@ export default function ProfilePage() {
           <TabsContent value="achievements" className="space-y-4">
             {/* Next Achievement */}
             {nextAchievement && (
-              <Card className="border-amber-200 dark:border-amber-800">
+              <Card className="border-warning/40">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                  <CardTitle className="flex items-center gap-2 text-warning">
                     <Trophy className="w-5 h-5" />
                     {t('Next Achievement', 'الإنجاز التالي')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
-                      <nextAchievement.icon className="w-8 h-8 text-amber-600" />
+                    <div className="w-16 h-16 rounded-full bg-warning-muted flex items-center justify-center">
+                      <nextAchievement.icon className="w-8 h-8 text-warning" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{nextAchievement.title}</h3>
@@ -396,11 +396,11 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-3">
                       <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                         achievement.earned
-                          ? 'bg-amber-100 dark:bg-amber-900/30'
+                          ? 'bg-warning-muted'
                           : 'bg-muted'
                       }`}>
                         <achievement.icon className={`w-6 h-6 ${
-                          achievement.earned ? 'text-amber-600' : 'text-muted-foreground'
+                          achievement.earned ? 'text-warning' : 'text-muted-foreground'
                         }`} />
                       </div>
                       <div>
@@ -411,7 +411,7 @@ export default function ProfilePage() {
                   </CardHeader>
                   <CardContent>
                     {achievement.earned ? (
-                      <Badge variant="secondary" className="bg-green-100 text-green-700">
+                      <Badge variant="secondary" className="bg-success-muted text-success">
                         <CheckCircle2 className="w-3 h-3 mr-1" />
                         {t('Earned', 'مكتسب')}
                       </Badge>
@@ -443,7 +443,7 @@ export default function ProfilePage() {
                       <div className="flex-1">
                         <div className="h-3 bg-muted rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"
+                            className="h-full bg-gradient-to-r from-primary to-accent-foreground rounded-full"
                             style={{ width: `${(month.average / 5) * 100}%` }}
                           />
                         </div>

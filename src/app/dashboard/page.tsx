@@ -14,10 +14,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Heart, MessageCircle, Wind, Brain, Shield, BookOpen, Target, TrendingUp, Flame, Users, Star, ArrowRight, Sparkles, Calendar, Award, Clock, CheckCircle2, Activity } from 'lucide-react'
 
 const QUICK_ACTIONS = [
-  { id: 'checkin', title: 'Daily Check-in', icon: CheckCircle2, color: 'bg-green-500', href: '/track' },
-  { id: 'journal', title: 'Write Journal', icon: Sparkles, color: 'bg-purple-500', href: '/journal' },
-  { id: 'breathe', title: 'Breathe', icon: Wind, color: 'bg-teal-500', href: '/tools' },
-  { id: 'chat', title: 'AI Coach', icon: MessageCircle, color: 'bg-blue-500', href: '/chat' },
+  { id: 'checkin', title: 'Daily Check-in', icon: CheckCircle2, color: 'bg-success', href: '/track' },
+  { id: 'journal', title: 'Write Journal', icon: Sparkles, color: 'bg-primary/70', href: '/journal' },
+  { id: 'breathe', title: 'Breathe', icon: Wind, color: 'bg-accent-foreground', href: '/tools' },
+  { id: 'chat', title: 'AI Coach', icon: MessageCircle, color: 'bg-primary', href: '/chat' },
 ]
 
 interface Goal {
@@ -211,7 +211,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent-foreground rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
             <Heart className="w-8 h-8 text-white" />
           </div>
           <p className="text-muted-foreground">{t('Loading...', 'جاري التحميل...')}</p>
@@ -243,7 +243,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Days Sober', 'أيام الصحو')}</CardTitle>
-              <Flame className="h-4 w-4 text-orange-500" />
+              <Flame className="h-4 w-4 text-warning" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{daysSinceRecovery}</div>
@@ -254,7 +254,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Current Streak', 'السلسلة الحالية')}</CardTitle>
-              <Activity className="h-4 w-4 text-green-500" />
+              <Activity className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{streak} {t('days', 'يوم')}</div>
@@ -265,7 +265,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Steps Completed', 'الخطوات المكتملة')}</CardTitle>
-              <BookOpen className="h-4 w-4 text-blue-500" />
+              <BookOpen className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{completedSteps.length}/12</div>
@@ -276,7 +276,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{t('Sobriety Goal', 'هدف الصحو')}</CardTitle>
-              <Target className="h-4 w-4 text-purple-500" />
+              <Target className="h-4 w-4 text-accent-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{Math.round(sobrietyProgress)}%</div>
@@ -342,7 +342,7 @@ export default function DashboardPage() {
                       onClick={() => handleToggleGoal(goal)}
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         goal.completed
-                          ? 'bg-green-500 border-green-500 text-white'
+                          ? 'bg-success border-success text-white'
                           : 'border-muted-foreground'
                       }`}
                     >
@@ -418,7 +418,7 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                   {goals.filter(g => g.completed).slice(0, 5).map((goal) => (
                     <div key={goal.id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-green-500">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-success">
                         <CheckCircle2 className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
@@ -429,7 +429,7 @@ export default function DashboardPage() {
                   ))}
                   {gratitudes.slice(0, 5).map((gratitude) => (
                     <div key={gratitude.id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-purple-500">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-accent-foreground">
                         <Heart className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
@@ -463,7 +463,7 @@ export default function DashboardPage() {
                         <div className="flex-1">
                           <div className="h-2 bg-muted rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"
+                              className="h-full bg-gradient-to-r from-primary to-accent-foreground rounded-full"
                               style={{ width: `${((i + 1) / 7) * 100}%` }}
                             />
                           </div>
@@ -494,7 +494,7 @@ export default function DashboardPage() {
                     ].map((milestone) => (
                       <div key={milestone.days} className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          milestone.achieved ? 'bg-amber-100 text-amber-600' : 'bg-muted text-muted-foreground'
+                          milestone.achieved ? 'bg-warning-muted text-warning' : 'bg-muted text-muted-foreground'
                         }`}>
                           <Award className="w-4 h-4" />
                         </div>
@@ -502,7 +502,7 @@ export default function DashboardPage() {
                           <p className="text-sm font-medium">{milestone.label}</p>
                         </div>
                         {milestone.achieved && (
-                          <Badge variant="secondary" className="bg-green-100 text-green-700">
+                          <Badge variant="secondary" className="bg-success-muted text-success">
                             {t('Achieved', 'تم الإنجاز')}
                           </Badge>
                         )}

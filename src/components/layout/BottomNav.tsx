@@ -12,6 +12,8 @@ import {
   TrendingUp,
   BookOpen,
   User,
+  Users,
+  Calendar,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -23,6 +25,8 @@ const navItems = [
   { href: "/tools", icon: Wrench, label: "Tools", labelAr: "الأدوات" },
   { href: "/track", icon: TrendingUp, label: "Track", labelAr: "التتبع" },
   { href: "/journal", icon: BookOpen, label: "Journal", labelAr: "اليوميات" },
+  { href: "/sponsor", icon: Users, label: "Sponsor", labelAr: "الراعي" },
+  { href: "/meetings", icon: Calendar, label: "Meetings", labelAr: "الاجتماعات" },
   { href: "/profile", icon: User, label: "Profile", labelAr: "الملف الشخصي" },
 ]
 

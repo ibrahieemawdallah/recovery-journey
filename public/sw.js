@@ -1,8 +1,10 @@
-const CACHE_NAME = 'recovery-v1';
+const CACHE_NAME = 'recovery-v2';
 const urlsToCache = [
   '/',
   '/manifest.json',
-  '/icons/icon.svg'
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/logo-poster.png'
 ];
 
 self.addEventListener('install', (event) => {

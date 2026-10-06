@@ -133,23 +133,23 @@ export default function ResourcesPage() {
         {activeCategory === 'all' && !searchQuery && (
           <div className="space-y-3">
             <h2 className="text-lg font-semibold flex items-center gap-2">
-              <Star className="w-5 h-5 text-amber-500" />
+              <Star className="w-5 h-5 text-warning" />
               {t('Featured Resources', 'مصادر مميزة')}
             </h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {featuredResources.map((resource) => {
                 const Icon = getCategoryIcon(resource.category)
                 return (
-                  <Card key={resource.id} className="border-amber-200 dark:border-amber-800">
+                  <Card key={resource.id} className="border-warning/40">
                     <CardHeader>
                       <div className="flex items-start justify-between">
-                        <Icon className="w-8 h-8 text-amber-500" />
+                        <Icon className="w-8 h-8 text-warning" />
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => toggleFavorite(resource.id)}
                         >
-                          <Star className={`w-4 h-4 ${favorites.includes(resource.id) ? 'fill-amber-500 text-amber-500' : 'text-muted-foreground'}`} />
+                          <Star className={`w-4 h-4 ${favorites.includes(resource.id) ? 'fill-warning text-warning' : 'text-muted-foreground'}`} />
                         </Button>
                       </div>
                       <CardTitle className="text-base">{resource.title}</CardTitle>
@@ -162,7 +162,7 @@ export default function ResourcesPage() {
                           {resource.author?.name || 'Unknown'}
                         </div>
                         <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+                          <Star className="w-3 h-3 fill-warning text-warning" />
                           {resource.helpful}
                         </div>
                       </div>
@@ -192,7 +192,7 @@ export default function ResourcesPage() {
             ) : error ? (
               <Card>
                 <CardContent className="py-12 text-center">
-                  <p className="text-red-500">{error}</p>
+                  <p className="text-destructive">{error}</p>
                 </CardContent>
               </Card>
             ) : resources.length === 0 ? (
@@ -216,7 +216,7 @@ export default function ResourcesPage() {
                             size="sm"
                             onClick={() => toggleFavorite(resource.id)}
                           >
-                            <Star className={`w-4 h-4 ${favorites.includes(resource.id) ? 'fill-amber-500 text-amber-500' : 'text-muted-foreground'}`} />
+                            <Star className={`w-4 h-4 ${favorites.includes(resource.id) ? 'fill-warning text-warning' : 'text-muted-foreground'}`} />
                           </Button>
                         </div>
                         <CardTitle className="text-base">{resource.title}</CardTitle>
@@ -230,7 +230,7 @@ export default function ResourcesPage() {
                               {resource.author?.name || 'Unknown'}
                             </div>
                             <div className="flex items-center gap-1">
-                              <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+                              <Star className="w-3 h-3 fill-warning text-warning" />
                               {resource.helpful}
                             </div>
                           </div>

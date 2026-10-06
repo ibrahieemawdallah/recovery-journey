@@ -11,11 +11,11 @@ import { cn } from "@/lib/utils"
 import { Check, Smile, Meh, Frown, Angry, Laugh } from "lucide-react"
 
 const MOODS = [
-  { value: 1, icon: Angry, label: "Struggling", color: "text-red-500" },
-  { value: 2, icon: Frown, label: "Low", color: "text-orange-500" },
-  { value: 3, icon: Meh, label: "Okay", color: "text-yellow-500" },
-  { value: 4, icon: Smile, label: "Good", color: "text-green-500" },
-  { value: 5, icon: Laugh, label: "Great", color: "text-emerald-500" },
+  { value: 1, icon: Angry, label: "Struggling", color: "text-destructive" },
+  { value: 2, icon: Frown, label: "Low", color: "text-warning" },
+  { value: 3, icon: Meh, label: "Okay", color: "text-warning" },
+  { value: 4, icon: Smile, label: "Good", color: "text-success" },
+  { value: 5, icon: Laugh, label: "Great", color: "text-primary" },
 ]
 
 const TRIGGERS = [
@@ -57,8 +57,8 @@ export function DailyCheckIn() {
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-12">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-            <Check className="h-8 w-8 text-green-600 dark:text-green-400" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success-muted dark:bg-success-muted">
+            <Check className="h-8 w-8 text-success dark:text-success" />
           </div>
           <h3 className="text-lg font-semibold">Check-in Complete</h3>
           <p className="text-sm text-muted-foreground">

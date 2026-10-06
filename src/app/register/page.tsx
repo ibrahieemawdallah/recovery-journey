@@ -47,7 +47,11 @@ export default function RegisterPage() {
 
       if (data.success) {
         localStorage.setItem('userId', data.user.email)
-        router.push('/')
+        // A full navigation, not router.push(). The session cookie arrives in
+        // this response; a client-side push can race it and reach the
+        // middleware before the cookie is stored, bouncing the new user back
+        // to /landing as if the registration had failed.
+        window.location.href = '/'
       } else {
         setError(data.error || t('Registration failed', 'فشل التسجيل'))
       }
@@ -59,14 +63,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-accent to-accent dark:from-foreground/10 dark:to-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="relative w-20 h-20">
-              <div className="absolute -inset-3 rounded-2xl bg-emerald-400/20 blur-xl" aria-hidden />
+              <div className="absolute -inset-3 rounded-2xl bg-primary/20 blur-xl" aria-hidden />
               <LogoVideo
-                className="relative h-20 w-20 rounded-2xl ring-1 ring-emerald-500/20 shadow-lg"
+                className="relative h-20 w-20 rounded-2xl ring-1 ring-primary/20 shadow-lg"
                 ariaLabel={t('Recovery Journey logo', 'شعار رحلة التعافي')}
               />
             </div>

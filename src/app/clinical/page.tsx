@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -29,6 +30,18 @@ const DBT_EXERCISES = [
 ]
 
 export default function ClinicalPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <ClinicalPageInner />
+    </Suspense>
+  )
+}
+
+function ClinicalPageInner() {
+  const searchParams = useSearchParams()
+  const initialTool = searchParams.get('tool') || 'thought-record'
+  const initialStep = searchParams.get('step')
+  const [selectedExercise, setSelectedExercise] = useState(initialTool)
   const [language, setLanguage] = useState<'en' | 'ar'>('en')
   const [activeTab, setActiveTab] = useState('cbt')
   const [thoughtRecords, setThoughtRecords] = useState<any[]>([])
@@ -248,14 +261,14 @@ export default function ClinicalPage() {
                 </div>
               ))}
               <div className={`p-4 rounded-lg ${
-                riskLevel === 'low' ? 'bg-green-50 dark:bg-green-900/20' :
-                riskLevel === 'moderate' ? 'bg-yellow-50 dark:bg-yellow-900/20' :
-                'bg-red-50 dark:bg-red-900/20'
+                riskLevel === 'low' ? 'bg-success-muted' :
+                riskLevel === 'moderate' ? 'bg-warning-muted' :
+                'bg-destructive/10'
               }`}>
                 <div className="flex items-center gap-2">
-                  {riskLevel === 'low' && <CheckCircle2 className="w-5 h-5 text-green-600" />}
-                  {riskLevel === 'moderate' && <AlertTriangle className="w-5 h-5 text-yellow-600" />}
-                  {riskLevel === 'high' && <AlertTriangle className="w-5 h-5 text-red-600" />}
+                  {riskLevel === 'low' && <CheckCircle2 className="w-5 h-5 text-success" />}
+                  {riskLevel === 'moderate' && <AlertTriangle className="w-5 h-5 text-warning" />}
+                  {riskLevel === 'high' && <AlertTriangle className="w-5 h-5 text-destructive" />}
                   <span className="font-medium">
                     {riskLevel === 'low' ? t('Low Risk - You\'re doing well!', 'مخاطر منخفضة - أنت تبلي بلاءً حسناً!') :
                      riskLevel === 'moderate' ? t('Moderate Risk - Consider reaching out', 'مخاطر معتدلة - فكر في التواصل') :

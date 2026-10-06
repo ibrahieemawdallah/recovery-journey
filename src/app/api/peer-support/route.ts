@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { getSessionUser } from '@/lib/auth'
 
 // Mentorship roles and matching
 const MENTOR_ROLES = {
@@ -13,16 +14,18 @@ const MENTOR_ROLES = {
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const userId = searchParams.get('userId')
     const role = searchParams.get('role')
     const action = searchParams.get('action') // 'available' or 'sessions'
 
-    if (!userId) {
+    // Resolve the user from the session — never trust a client-supplied userId.
+    const sessionUser = await getSessionUser(request)
+    if (!sessionUser) {
       return NextResponse.json(
-        { success: false, error: 'userId is required' },
-        { status: 400 }
+        { success: false, error: 'Not authenticated' },
+        { status: 401 }
       )
     }
+    const userId = sessionUser.id
 
     // Get user's peer support session history
     if (action === 'sessions') {

@@ -384,8 +384,8 @@ export default function SettingsPage() {
                 {emergencyContacts.map((contact) => (
                   <div key={contact.id} className="flex items-center justify-between p-3 rounded-lg border">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                        <Phone className="w-5 h-5 text-red-600" />
+                      <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
+                        <Phone className="w-5 h-5 text-destructive" />
                       </div>
                       <div>
                         <p className="font-medium text-sm">{contact.name}</p>
@@ -393,7 +393,7 @@ export default function SettingsPage() {
                       </div>
                     </div>
                     <Button variant="ghost" size="sm" onClick={() => removeContact(contact.id)}>
-                      <Trash2 className="w-4 h-4 text-red-500" />
+                      <Trash2 className="w-4 h-4 text-destructive" />
                     </Button>
                   </div>
                 ))}
@@ -444,37 +444,37 @@ export default function SettingsPage() {
             </Card>
 
             {/* Crisis Resources */}
-            <Card className="border-red-200 dark:border-red-800">
+            <Card className="border-destructive/30">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-400">
+                <CardTitle className="flex items-center gap-2 text-destructive">
                   <AlertTriangle className="w-5 h-5" />
                   {t('Crisis Resources', 'موارد الأزمات')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                  <p className="font-medium text-red-700 dark:text-red-400">
+                <div className="p-4 bg-destructive/10 rounded-lg">
+                  <p className="font-medium text-destructive">
                     {t('SAMHSA National Helpline', 'خط المساعدة الوطني SAMHSA')}
                   </p>
-                  <p className="text-sm text-red-600 dark:text-red-300">1-800-662-4357</p>
+                  <p className="text-sm text-destructive dark:text-destructive">1-800-662-4357</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     {t('Free, confidential, 24/7 treatment referral', 'مجاني وسري ومتاح على مدار الساعة')}
                   </p>
                 </div>
-                <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                  <p className="font-medium text-red-700 dark:text-red-400">
+                <div className="p-4 bg-destructive/10 rounded-lg">
+                  <p className="font-medium text-destructive">
                     {t('Crisis Text Line', 'خط نص الأزمات')}
                   </p>
-                  <p className="text-sm text-red-600 dark:text-red-300">Text HOME to 741741</p>
+                  <p className="text-sm text-destructive dark:text-destructive">Text HOME to 741741</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     {t('Free, 24/7 crisis support via text', 'دعم أزمات مجاني على مدار الساعة عبر النص')}
                   </p>
                 </div>
-                <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                  <p className="font-medium text-red-700 dark:text-red-400">
+                <div className="p-4 bg-destructive/10 rounded-lg">
+                  <p className="font-medium text-destructive">
                     {t('Emergency Services', 'خدمات الطوارئ')}
                   </p>
-                  <p className="text-sm text-red-600 dark:text-red-300">911</p>
+                  <p className="text-sm text-destructive dark:text-destructive">911</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     {t('For immediate emergency assistance', 'للمساعدة الطارئة الفورية')}
                   </p>

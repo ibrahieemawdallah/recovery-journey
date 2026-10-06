@@ -20,7 +20,9 @@ export function middleware(request: NextRequest) {
   const session = request.cookies.get('session')
   if (!session?.value) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    // A visitor with no session lands on the promo, not a bare login form —
+    // the landing page explains the product and routes them onward.
+    url.pathname = '/landing'
     return NextResponse.redirect(url)
   }
 

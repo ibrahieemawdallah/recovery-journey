@@ -36,6 +36,12 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-warning: var(--warning);
+  --color-warning-muted: var(--warning-muted);
+  --font-serif: var(--font-serif);
   --color-card: var(--card);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -45,71 +51,113 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+
+  /* ============================================================
+     SAGE GARDEN — palette derived from the tree logo
+     ink #444D47 · leaf #BED68E · paper #FAFAF8
+     ============================================================ */
+
+  --background: oklch(0.9845 0.0026 106.4);      /* paper  #FAFAF8 */
+  --foreground: oklch(0.3074 0.0153 153.0);      /* ink    #2A322C */
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.3074 0.0153 153.0);
+
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.3074 0.0153 153.0);
+
+  --primary: oklch(0.4487 0.0473 156.2);         /* #3F5D4A — actions, links */
+  --primary-foreground: oklch(0.985 0.005 120);
+
+  --secondary: oklch(0.9620 0.0067 115.7);       /* #F2F3EE */
+  --secondary-foreground: oklch(0.3074 0.0153 153.0);
+
+  --muted: oklch(0.9620 0.0067 115.7);
+  --muted-foreground: oklch(0.5524 0.0142 164.4); /* #6B7570 */
+
+  --accent: oklch(0.9427 0.0328 122.1);          /* #E8F0D8 — sage tint */
+  --accent-foreground: oklch(0.4487 0.0473 156.2);
+
+  --destructive: oklch(0.5313 0.1521 27.7);      /* #B4463C — crisis red */
+  --destructive-foreground: oklch(0.985 0.005 120);
+
+  --border: oklch(0.9179 0.0122 116.8);          /* #E3E5DC */
+  --input: oklch(0.9179 0.0122 116.8);
+  --ring: oklch(0.4487 0.0473 156.2);
+
+  /* charts — the brand ramp, not a rainbow */
+  --chart-1: oklch(0.4487 0.0473 156.2);         /* primary green */
+  --chart-2: oklch(0.8410 0.0982 123.5);         /* sage         */
+  --chart-3: oklch(0.5597 0.0582 71.8);          /* earth        */
+  --chart-4: oklch(0.6176 0.0638 187.0);         /* muted teal   */
+  --chart-5: oklch(0.5524 0.0142 164.4);         /* muted ink    */
+
+  --sidebar: oklch(0.9620 0.0067 115.7);
+  --sidebar-foreground: oklch(0.3074 0.0153 153.0);
+  --sidebar-primary: oklch(0.4487 0.0473 156.2);
+  --sidebar-primary-foreground: oklch(0.985 0.005 120);
+  --sidebar-accent: oklch(0.9427 0.0328 122.1);
+  --sidebar-accent-foreground: oklch(0.4487 0.0473 156.2);
+  --sidebar-border: oklch(0.9179 0.0122 116.8);
+  --sidebar-ring: oklch(0.4487 0.0473 156.2);
+
+  /* semantic state — success is the brand green, not Tailwind's */
+  --success: oklch(0.4487 0.0473 156.2);
+  --success-foreground: oklch(0.985 0.005 120);
+  --success-muted: oklch(0.9427 0.0328 122.1);
+  --warning: oklch(0.7000 0.1300 72.0);
+  --warning-muted: oklch(0.9550 0.0300 85.0);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.2058 0.0102 158.0);      /* deep forest, not black */
+  --foreground: oklch(0.9487 0.0092 118.0);
+
+  --card: oklch(0.2431 0.0118 158.0);
+  --card-foreground: oklch(0.9487 0.0092 118.0);
+
+  --popover: oklch(0.2431 0.0118 158.0);
+  --popover-foreground: oklch(0.9487 0.0092 118.0);
+
+  --primary: oklch(0.8410 0.0982 123.5);         /* sage reads best on dark */
+  --primary-foreground: oklch(0.2058 0.0102 158.0);
+
+  --secondary: oklch(0.2941 0.0132 158.0);
+  --secondary-foreground: oklch(0.9487 0.0092 118.0);
+
+  --muted: oklch(0.2941 0.0132 158.0);
+  --muted-foreground: oklch(0.7080 0.0164 130.0);
+
+  --accent: oklch(0.3216 0.0248 150.0);
+  --accent-foreground: oklch(0.8410 0.0982 123.5);
+
+  --destructive: oklch(0.6471 0.1621 27.0);
+  --destructive-foreground: oklch(0.985 0.005 120);
+
+  --border: oklch(0.9487 0.0092 118.0 / 12%);
+  --input: oklch(0.9487 0.0092 118.0 / 16%);
+  --ring: oklch(0.8410 0.0982 123.5);
+
+  --chart-1: oklch(0.8410 0.0982 123.5);
+  --chart-2: oklch(0.6176 0.0638 187.0);
+  --chart-3: oklch(0.7000 0.0700 72.0);
+  --chart-4: oklch(0.5500 0.0500 156.0);
+  --chart-5: oklch(0.7080 0.0164 130.0);
+
+  --sidebar: oklch(0.2431 0.0118 158.0);
+  --sidebar-foreground: oklch(0.9487 0.0092 118.0);
+  --sidebar-primary: oklch(0.8410 0.0982 123.5);
+  --sidebar-primary-foreground: oklch(0.2058 0.0102 158.0);
+  --sidebar-accent: oklch(0.3216 0.0248 150.0);
+  --sidebar-accent-foreground: oklch(0.8410 0.0982 123.5);
+  --sidebar-border: oklch(0.9487 0.0092 118.0 / 12%);
+  --sidebar-ring: oklch(0.8410 0.0982 123.5);
+
+  --success: oklch(0.8410 0.0982 123.5);
+  --success-foreground: oklch(0.2058 0.0102 158.0);
+  --success-muted: oklch(0.3216 0.0248 150.0);
+  --warning: oklch(0.8000 0.1200 78.0);
+  --warning-muted: oklch(0.3500 0.0400 78.0);
 }
 
 @layer base {
@@ -118,6 +166,20 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Headings carry the logo's serif voice; body stays a clean sans. */
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+  }
+  .font-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+  }
+  .wordmark {
+    font-family: var(--font-serif);
+    letter-spacing: 0.2em;
   }
 }
 

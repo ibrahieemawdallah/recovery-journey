@@ -94,7 +94,34 @@ export async function GET(request: NextRequest) {
       take: limit
     })
 
-    return NextResponse.json({ success: true, checkins })
+    // Also return the user's current step so the UI can show
+    // "You are working on Step X" with tailored suggestions.
+    const stepProgress = await db.stepProgress.findMany({
+      where: { userId: sessionUser.id },
+      orderBy: { stepNumber: 'asc' },
+    })
+
+    const currentStep = stepProgress.find((p) => p.status === 'in_progress')
+    const nextStep = stepProgress.find((p) => p.status === 'not_started')
+
+    return NextResponse.json({
+      success: true,
+      checkins,
+      currentStep: currentStep
+        ? {
+            stepNumber: currentStep.stepNumber,
+            status: currentStep.status,
+            tasksDone: 0,
+            tasksTotal: 0,
+          }
+        : null,
+      nextStep: nextStep
+        ? {
+            stepNumber: nextStep.stepNumber,
+            status: nextStep.status,
+          }
+        : null,
+    })
   } catch (error) {
     console.error('Error fetching check-ins:', error)
     return NextResponse.json(

@@ -14,7 +14,7 @@ import { QuickActions } from '@/components/dashboard/QuickActions'
 import { StatsOverview } from '@/components/dashboard/StatsOverview'
 import { DailyQuote } from '@/components/dashboard/DailyQuote'
 import { Heart, MessageCircle, Wind, Brain, Shield, BookOpen, Target, TrendingUp, Flame, Users, Star, ArrowRight } from 'lucide-react'
-import { BrandMark } from '@/components/brand/brand-mark'
+import { TreeLogoMark } from '@/components/brand/tree-logo-mark'
 import { LogoVideo } from '@/components/brand/logo-video'
 
 const TWELVE_STEPS = [
@@ -101,8 +101,8 @@ export default function HomePage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="relative w-16 h-16 mb-4 mx-auto">
-            <div className="absolute -inset-3 rounded-2xl bg-emerald-400/25 blur-xl animate-pulse" aria-hidden />
-            <BrandMark className="relative h-16 w-16" title={t('Recovery Journey logo', 'شعار رحلة التعافي')} />
+            <div className="absolute -inset-3 rounded-2xl bg-primary/25 blur-xl animate-pulse" aria-hidden />
+            <TreeLogoMark className="relative h-16 w-16" title={t('Recovery Journey logo', 'شعار رحلة التعافي')} />
           </div>
           <p className="text-muted-foreground">{t('Loading...', 'جاري التحميل...')}</p>
         </div>
@@ -112,14 +112,14 @@ export default function HomePage() {
 
   if (!isOnboarded) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-accent to-accent flex items-center justify-center p-4">
         <Card className="w-full max-w-lg">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
               <div className="relative w-28 h-28">
-                <div className="absolute -inset-4 rounded-[2rem] bg-emerald-400/20 blur-2xl animate-pulse" aria-hidden />
+                <div className="absolute -inset-4 rounded-[2rem] bg-primary/20 blur-2xl animate-pulse" aria-hidden />
                 <LogoVideo
-                  className="relative h-28 w-28 rounded-3xl ring-1 ring-emerald-500/20 shadow-xl shadow-emerald-900/10"
+                  className="relative h-28 w-28 rounded-3xl ring-1 ring-primary/20 shadow-xl shadow-primary/10"
                   ariaLabel={t('Recovery Journey logo', 'شعار رحلة التعافي')}
                 />
               </div>
@@ -197,12 +197,12 @@ export default function HomePage() {
                 <div className="space-y-2">
                   {TWELVE_STEPS.map((step) => (
                     <div key={step.number} className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${completedSteps.includes(step.number) ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}`}>{step.number}</div>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${completedSteps.includes(step.number) ? 'bg-success text-white' : 'bg-muted text-muted-foreground'}`}>{step.number}</div>
                       <div className="flex-1">
                         <p className="font-medium text-sm">{step.shortTitle}</p>
                         <p className="text-xs text-muted-foreground">{step.title}</p>
                       </div>
-                      {completedSteps.includes(step.number) && <Badge variant="secondary" className="bg-green-100 text-green-700">{t('Done', 'تم')}</Badge>}
+                      {completedSteps.includes(step.number) && <Badge variant="secondary" className="bg-success-muted text-success">{t('Done', 'تم')}</Badge>}
                     </div>
                   ))}
                 </div>

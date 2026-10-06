@@ -98,13 +98,15 @@ export default function OnboardingPage() {
     localStorage.setItem('userId', formData.email)
     localStorage.setItem('onboardingData', JSON.stringify(formData))
     localStorage.setItem('language', language)
-    router.push('/')
+    // Full navigation — the session cookie arrives with the /api/users response,
+    // and a client-side push can reach the middleware before it is stored.
+    window.location.href = '/'
   }
 
   const progress = (step / TOTAL_STEPS) * 100
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-accent to-accent dark:from-foreground/10 dark:to-background flex items-center justify-center p-4">
       <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">

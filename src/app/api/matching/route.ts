@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { getSessionUser } from '@/lib/auth'
 
 // Helper function to calculate match score
 function calculateMatchScore(
@@ -133,19 +134,28 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { requesterId, title, description, category, urgency, location } = body
+    const { title, description, category, urgency, location } = body
 
-    if (!requesterId || !title || !description || !category) {
+    if (!title || !description || !category) {
       return NextResponse.json({
         success: false,
         error: 'Missing required fields'
       }, { status: 400 })
     }
 
+    // The requester is the session user — never trust a client-supplied id.
+    const sessionUser = await getSessionUser(request)
+    if (!sessionUser) {
+      return NextResponse.json(
+        { success: false, error: 'Not authenticated' },
+        { status: 401 }
+      )
+    }
+
     // Create the help request
     const helpRequest = await db.helpRequest.create({
       data: {
-        requesterId,
+        requesterId: sessionUser.id,
         title,
         description,
         category,

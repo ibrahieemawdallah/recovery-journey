@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -11,6 +11,21 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+/**
+ * Fraunces — the display serif. Chosen to match the logo wordmark's
+ * letterforms: a warm, slightly soft serif that reads as human rather
+ * than clinical, which is the whole point of the brand.
+ *
+ * Note: `axes` may only be used when `weight` is omitted or 'variable' —
+ * pinning named weights and axes together fails the build.
+ */
+const fraunces = Fraunces({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: "variable",
+  axes: ["SOFT", "WONK"],
 });
 
 export const metadata: Metadata = {
@@ -39,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />

@@ -60,13 +60,14 @@ export function CrisisButton() {
           size="lg"
           className="fixed bottom-20 right-4 z-50 h-14 w-14 rounded-full shadow-lg md:bottom-6 md:right-6"
           aria-label="Crisis support"
+          data-crisis-button
         >
           <Phone className="h-6 w-6" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-red-600 dark:text-red-400">
+          <DialogTitle className="flex items-center gap-2 text-destructive dark:text-destructive">
             <Phone className="h-5 w-5" />
             Crisis Support
           </DialogTitle>
@@ -90,10 +91,10 @@ export function CrisisButton() {
                       key={resource.name}
                       className="flex items-start gap-3 rounded-lg border bg-card p-3"
                     >
-                      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-red-600 dark:text-red-400" />
+                      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-destructive dark:text-destructive" />
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-medium">{resource.name}</p>
-                        <p className="text-sm font-semibold text-red-600 dark:text-red-400">
+                        <p className="text-sm font-semibold text-destructive dark:text-destructive">
                           {resource.number}
                         </p>
                         <p className="text-xs text-muted-foreground">
@@ -116,7 +117,7 @@ export function CrisisButton() {
               <ol className="space-y-2">
                 {immediateSteps.map((step, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-100 text-xs font-semibold text-red-600 dark:bg-red-900/30 dark:text-red-400">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-xs font-semibold text-destructive dark:bg-destructive/15 dark:text-destructive">
                       {i + 1}
                     </span>
                     <span className="text-muted-foreground">{step}</span>
@@ -128,8 +129,8 @@ export function CrisisButton() {
             <Separator />
 
             {/* Encouragement */}
-            <div className="rounded-lg bg-red-50 p-4 text-center dark:bg-red-950/20">
-              <p className="text-sm font-medium text-red-800 dark:text-red-200">
+            <div className="rounded-lg bg-destructive/10 p-4 text-center">
+              <p className="text-sm font-medium text-destructive dark:text-destructive">
                 You matter. Your recovery matters. This moment will pass.
               </p>
             </div>

@@ -106,10 +106,16 @@ export function TreeLogoMark({
   className,
   animate = true,
   title,
+  ink = INK,
+  leaf = LEAF,
 }: {
   className?: string
   animate?: boolean
   title?: string
+  /** Stroke colour. Override to white when the mark sits on a dark surface. */
+  ink?: string
+  /** Leaf colour. Override to a token when the mark sits on a dark surface. */
+  leaf?: string
 }) {
   const [t, setT] = useState(1)
 
@@ -141,7 +147,7 @@ export function TreeLogoMark({
       aria-label={title}
       className={cn("overflow-visible", className)}
     >
-      <g fill={INK}>
+      <g fill={ink}>
         {SCHED.map(([bi, a, b]) => {
           const r = smooth(t, a, b)
           if (r <= 0) return null
@@ -151,7 +157,7 @@ export function TreeLogoMark({
         })}
       </g>
 
-      <g fill={LEAF}>
+      <g fill={leaf}>
         {LEAF_SCHED.map(([bi, a, b]) => {
           const r = smooth(t, a, b)
           if (r <= 0) return null
@@ -176,25 +182,34 @@ export function TreeLogoLockup({
   animate = true,
   title = "Recovery Journey",
   markClassName,
+  wordmark = "RECOVERY JOURNEY",
+  size = "md",
 }: {
   className?: string
   animate?: boolean
   title?: string
   markClassName?: string
+  /** Override the wordmark text; pass null to render the mark alone. */
+  wordmark?: string | null
+  size?: "sm" | "md" | "lg"
 }) {
+  const markSize = { sm: "max-w-[120px]", md: "max-w-[190px]", lg: "max-w-[260px]" }[size]
+  const textSize = { sm: "text-[10px]", md: "text-sm", lg: "text-base" }[size]
   return (
     <div className={cn("flex flex-col items-center", className)}>
       <TreeLogoMark
-        className={cn("w-full max-w-[190px]", markClassName)}
+        className={cn("w-full", markSize, markClassName)}
         animate={animate}
         title={title}
       />
-      <div
-        className="mt-2 text-center text-[#444D47]"
-        style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-      >
-        <div className="text-sm tracking-[0.22em]">RECOVERY JOURNEY</div>
-      </div>
+      {wordmark && (
+        <div
+          className={cn("mt-2 text-center text-[#444D47]", textSize)}
+          style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+        >
+          <div className="tracking-[0.22em]">{wordmark}</div>
+        </div>
+      )}
     </div>
   )
 }

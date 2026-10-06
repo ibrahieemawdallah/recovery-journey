@@ -37,6 +37,7 @@ model User {
   // Relations
   dailyCheckins      DailyCheckin[]
   stepProgress       StepProgress[]
+  meetings           Meeting[]
   gratitudeEntries   GratitudeEntry[]
   journalEntries     JournalEntry[]
   workTasks          WorkTask[]
@@ -89,9 +90,75 @@ model StepProgress {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // ---- full step-work system ----
+  /// not_started | in_progress | completed
+  status        String    @default("not_started")
+  startedAt     DateTime?
+  /// User's own statement of what "done" means for this step, written up front.
+  doneDefinition String?
+  /// When they last touched it — drives the "stalled" nudge.
+  lastWorkedAt  DateTime?
+
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks         StepTask[]
+  reflections   StepReflection[]
+  worksheets    StepWorksheet[]
 
   @@unique([userId, stepNumber])
+}
+
+/// One concrete action inside a step ("write down three times you tried to
+/// control it"). Seeded from the step's howToWork list, then user-editable.
+model StepTask {
+  id          String    @id @default(cuid())
+  userId      String
+  stepNumber  Int
+  /// Stable index into the step's canonical howToWork list (0-based).
+  taskIndex   Int
+  title       String
+  done        Boolean   @default(false)
+  doneAt      DateTime?
+  /// Free-text the user attaches to the task.
+  note        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  progress    StepProgress @relation(fields: [userId, stepNumber], references: [userId, stepNumber], onDelete: Cascade)
+
+  @@unique([userId, stepNumber, taskIndex])
+}
+
+/// A dated reflection on a step — a journal, not a single notes blob.
+model StepReflection {
+  id          String   @id @default(cuid())
+  userId      String
+  stepNumber  Int
+  body        String
+  /// How the user felt about their progress: 1 (stuck) – 5 (clear)
+  clarity     Int?
+  createdAt   DateTime @default(now())
+
+  progress    StepProgress @relation(fields: [userId, stepNumber], references: [userId, stepNumber], onDelete: Cascade)
+
+  @@index([userId, stepNumber, createdAt])
+}
+
+/// A structured worksheet for the steps that need one (4 = 4-column inventory,
+/// 8/9 = amends list). Stored as a JSON array of rows; shape depends on `kind`.
+model StepWorksheet {
+  id          String   @id @default(cuid())
+  userId      String
+  stepNumber  Int
+  /// inventory | amends | fear | defects | amends_action
+  kind        String
+  /// JSON array of row objects
+  rows        String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  progress    StepProgress @relation(fields: [userId, stepNumber], references: [userId, stepNumber], onDelete: Cascade)
+
+  @@unique([userId, stepNumber, kind])
 }
 
 // Gratitude journal entries
@@ -181,6 +248,22 @@ model HelpRequest {
 
   @@index([status, urgency])
   @@index([requesterId, status])
+}
+
+// AA/NA meeting attendance log
+model Meeting {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  type        String   // aa, na, smart_recovery, other
+  date        DateTime
+  location    String?
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
 }
 
 // Scheduled sessions for mentorship/help

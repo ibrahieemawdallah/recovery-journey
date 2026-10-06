@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { LogoVideo } from '@/components/brand/logo-video'
-import { TreeLogoMark, TreeLogoLockup } from '@/components/brand/tree-logo-mark'
+import { TreeLogoMark } from '@/components/brand/tree-logo-mark'
 import {
   Brain, BookOpen, MessageCircle, Users, Shield, Wind, Heart, Sparkles,
-  ArrowRight, Check, Lock, HeartHandshake, Activity, Calendar, LineChart,
+  ArrowRight, Check, Lock, Activity, Calendar, LineChart,
   Smartphone, CheckCircle2, Menu, X,
 } from 'lucide-react'
 
@@ -233,72 +233,86 @@ export default function LandingPage() {
       </header>
 
       {/* ---------------- hero ---------------- */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden py-14 md:py-20">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.35] dark:opacity-20"
+          className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              'radial-gradient(closest-side, rgba(16,185,129,.28), transparent 70%), radial-gradient(closest-side, rgba(13,148,136,.22), transparent 70%)',
-            backgroundPosition: '20% 20%, 80% 60%',
-            backgroundSize: '900px 900px, 700px 700px',
+              'radial-gradient(760px 520px at 78% 22%, color-mix(in oklab, var(--accent) 60%, transparent), transparent 68%), radial-gradient(620px 460px at 8% 82%, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%)',
             backgroundRepeat: 'no-repeat',
           }}
           aria-hidden
         />
 
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 md:grid-cols-2">
           <div>
-            <Badge variant="secondary" className="mb-5 gap-1.5 rounded-full px-3 py-1">
-              <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
+            <Badge variant="secondary" className="mb-6 gap-1.5 rounded-full border-transparent bg-accent px-3.5 py-1.5 text-accent-foreground">
+              <Sparkles className="h-3.5 w-3.5" />
               {c.hero.badge}
             </Badge>
 
-            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <h1 className="font-display text-4xl leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
               {c.hero.title}
-              <span className="block bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-                {c.hero.titleAccent}
-              </span>
+              <span className="block text-primary">{c.hero.titleAccent}</span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               {c.hero.sub}
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="h-12 px-7 text-base" onClick={() => router.push('/onboarding')}>
                 {c.hero.cta}
                 <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
               </Button>
-              <Button size="lg" variant="outline" className="h-12 px-7 text-base" onClick={() => router.push('/')}>
+              <Button size="lg" variant="outline" className="h-12 px-7 text-base" onClick={() => router.push('#features')}>
                 {c.hero.cta2}
               </Button>
             </div>
 
-            <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+            <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
               <Lock className="h-3.5 w-3.5" />
               {c.hero.note}
             </p>
           </div>
 
-          {/* the animated logo, front and centre */}
-          <div className="relative mx-auto w-full max-w-sm">
+          {/* ---- the promo stage: the animated mark, framed by growth rings ---- */}
+          <div className="relative mx-auto flex aspect-square w-full max-w-[440px] items-center justify-center">
+            {/* concentric "growth rings" — a tree's own geometry */}
+            <div className="pointer-events-none absolute inset-[16%] rounded-full border border-primary/15" aria-hidden />
+            <div className="pointer-events-none absolute inset-[8%] rounded-full border border-primary/10" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 rounded-full border border-primary/[0.07]" aria-hidden />
+            <div className="pointer-events-none absolute inset-[-9%] rounded-full border border-dashed border-accent" aria-hidden />
+            <div className="pointer-events-none absolute inset-[-18%] rounded-full border border-dashed border-accent/50" aria-hidden />
             <div
-              className="absolute -inset-8 rounded-full bg-emerald-400/25 blur-3xl animate-pulse"
+              className="pointer-events-none absolute inset-[6%] rounded-full blur-2xl"
+              style={{ background: 'radial-gradient(closest-side, color-mix(in oklab, var(--accent) 70%, transparent), transparent 74%)' }}
               aria-hidden
             />
-            <div className="relative rounded-[2.5rem] border border-border/60 bg-card p-6 shadow-2xl shadow-emerald-900/10">
+
+            {/* the mark itself */}
+            <div className="relative aspect-square w-[66%] overflow-hidden rounded-[26px] bg-card shadow-2xl shadow-primary/10 ring-1 ring-border">
               <LogoVideo
-                className="w-full rounded-[2rem]"
-                ariaLabel={
-                  ar
-                    ? 'شعار رحلة التعافي المتحرك'
-                    : 'Animated Recovery Journey logo'
-                }
+                className="h-full w-full object-cover"
+                loop
+                ariaLabel={ar ? 'شعار رحلة التعافي المتحرك' : 'Animated Recovery Journey logo'}
               />
-              <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <HeartHandshake className="h-4 w-4 text-emerald-500" />
-                {ar ? 'شعار رحلة التعافي' : 'The Recovery Journey mark'}
-              </div>
+            </div>
+
+            {/* floating status chips */}
+            <div className="absolute left-[-3%] top-[11%] flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold shadow-lg">
+              <span className="text-base leading-none">🌱</span>
+              {ar ? 'اليوم ٤٧' : 'Day 47'}
+            </div>
+            <div className="absolute bottom-[15%] right-[-4%] flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold shadow-lg">
+              {ar ? 'الخطوة ٤ · الجرد' : 'Step 4 · Inventory'}
+            </div>
+            <div className="absolute bottom-[34%] left-[-7%] flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold shadow-lg">
+              {ar ? 'مدرب ٢٤/٧' : '24/7 coach'}
+            </div>
+
+            <div className="wordmark absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-foreground">
+              RECOVERY JOURNEY
             </div>
           </div>
         </div>
@@ -309,7 +323,7 @@ export default function LandingPage() {
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 md:grid-cols-4">
           {c.stats.map((s) => (
             <div key={s.label} className="text-center">
-              <div className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-3xl font-bold text-transparent">
+              <div className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-3xl font-bold text-transparent">
                 {s.value}
               </div>
               <div className="mt-1 text-sm text-muted-foreground">{s.label}</div>
@@ -329,10 +343,10 @@ export default function LandingPage() {
           {c.items.map((f) => (
             <Card
               key={f.en}
-              className="group border-border/60 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400/50 hover:shadow-lg hover:shadow-emerald-900/5"
+              className="group border-border/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
             >
               <CardContent className="p-6">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 transition-transform duration-300 group-hover:scale-110">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent-foreground transition-transform duration-300 group-hover:scale-110">
                   <f.icon className="h-5 w-5 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold">{ar ? f.ar : f.en}</h3>
@@ -357,9 +371,9 @@ export default function LandingPage() {
             {stepList.map((s, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 rounded-xl border border-border/60 bg-card p-4 transition-colors hover:border-emerald-400/40"
+                className="flex items-start gap-3 rounded-xl border border-border/60 bg-card p-4 transition-colors hover:border-primary/40"
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary dark:text-primary">
                   {i + 1}
                 </div>
                 <p className="pt-1 text-sm leading-relaxed">{s}</p>
@@ -372,7 +386,7 @@ export default function LandingPage() {
       {/* ---------------- testimonial ---------------- */}
       <section className="mx-auto max-w-3xl px-4 py-20">
         <figure className="rounded-2xl border border-border/60 bg-card p-8 text-center">
-          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-500">
+          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent-foreground">
             <Heart className="h-6 w-6 text-white" />
           </div>
           <blockquote className="text-lg leading-relaxed text-foreground/90">
@@ -409,9 +423,9 @@ export default function LandingPage() {
 
       {/* ---------------- final cta ---------------- */}
       <section className="mx-auto max-w-6xl px-4 py-20">
-        <div className="relative overflow-hidden rounded-3xl border border-emerald-400/25 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 p-10 text-center md:p-16">
+        <div className="relative overflow-hidden rounded-3xl bg-primary p-10 text-center md:p-16">
           <div
-            className="pointer-events-none absolute inset-0 opacity-20"
+            className="pointer-events-none absolute inset-0 opacity-[0.07]"
             style={{
               backgroundImage:
                 'radial-gradient(closest-side, white 2px, transparent 70%)',
@@ -421,22 +435,25 @@ export default function LandingPage() {
           />
           <div className="relative mx-auto max-w-2xl">
             <div className="mx-auto mb-6 w-24">
+              {/* the mark is dark ink — it needs the light treatment to read on green */}
               <TreeLogoMark
                 className="mx-auto h-20 w-20"
+                ink="#FFFFFF"
+                leaf="var(--accent)"
                 title="Recovery Journey"
               />
             </div>
-            <h2 className="text-3xl font-bold text-white drop-shadow-sm sm:text-4xl">{c.cta.title}</h2>
-            <p className="mt-3 text-lg text-white/90">{c.cta.sub}</p>
+            <h2 className="font-display text-3xl text-primary-foreground sm:text-4xl">{c.cta.title}</h2>
+            <p className="mt-3 text-lg text-primary-foreground/85">{c.cta.sub}</p>
             <Button
               size="lg"
-              className="mt-8 h-12 bg-neutral-900 px-8 text-base text-white hover:bg-neutral-800"
+              className="mt-8 h-12 bg-background px-8 text-base text-primary hover:bg-accent"
               onClick={() => router.push('/onboarding')}
             >
               {c.cta.button}
               <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
             </Button>
-            <p className="mt-4 flex items-center justify-center gap-2 text-sm text-white/80">
+            <p className="mt-4 flex items-center justify-center gap-2 text-sm text-primary-foreground/75">
               <Smartphone className="h-4 w-4" />
               {ar ? 'يعمل على الهاتف والكمبيوتر' : 'Works on phone and desktop'}
             </p>

@@ -81,8 +81,8 @@ export function StatsOverview() {
       value: "12 days",
       change: "+2 from last week",
       changeType: "positive" as const,
-      iconColor: "text-orange-600 dark:text-orange-400",
-      bgColor: "bg-orange-50 dark:bg-orange-950/30",
+      iconColor: "text-warning dark:text-warning",
+      bgColor: "bg-warning-muted",
     },
     {
       icon: Calendar,
@@ -90,8 +90,8 @@ export function StatsOverview() {
       value: "156",
       change: "On track",
       changeType: "positive" as const,
-      iconColor: "text-blue-600 dark:text-blue-400",
-      bgColor: "bg-blue-50 dark:bg-blue-950/30",
+      iconColor: "text-primary dark:text-primary/70",
+      bgColor: "bg-accent",
     },
     {
       icon: Footprints,
@@ -99,8 +99,8 @@ export function StatsOverview() {
       value: "7/12",
       change: "Step 8 in progress",
       changeType: "neutral" as const,
-      iconColor: "text-green-600 dark:text-green-400",
-      bgColor: "bg-green-50 dark:bg-green-950/30",
+      iconColor: "text-success dark:text-success",
+      bgColor: "bg-success-muted",
     },
     {
       icon: BookOpen,
@@ -108,8 +108,8 @@ export function StatsOverview() {
       value: "43",
       change: "+5 this week",
       changeType: "positive" as const,
-      iconColor: "text-purple-600 dark:text-purple-400",
-      bgColor: "bg-purple-50 dark:bg-purple-950/30",
+      iconColor: "text-accent-foreground",
+      bgColor: "bg-accent",
     },
     {
       icon: Target,
@@ -117,8 +117,8 @@ export function StatsOverview() {
       value: "8/10",
       change: "2 remaining",
       changeType: "neutral" as const,
-      iconColor: "text-amber-600 dark:text-amber-400",
-      bgColor: "bg-amber-50 dark:bg-amber-950/30",
+      iconColor: "text-warning dark:text-warning",
+      bgColor: "bg-warning-muted",
     },
   ]
 

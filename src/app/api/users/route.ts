@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { getSessionUser } from '@/lib/auth'
+import { getSessionUser, setSessionCookie } from '@/lib/auth'
 
 // POST /api/users - Create or update user (onboarding)
 export async function POST(request: NextRequest) {
@@ -49,6 +49,11 @@ export async function POST(request: NextRequest) {
         }
       })
     }
+
+    // Onboarding creates a real account, so it must also establish the session —
+    // otherwise the middleware bounces the new user straight back to /landing
+    // and the whole flow looks like it silently failed.
+    await setSessionCookie(user.id, request)
 
     return NextResponse.json({ success: true, user })
   } catch (error) {
