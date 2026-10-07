@@ -51,6 +51,9 @@ export default function DashboardPage() {
   const [completedSteps, setCompletedSteps] = useState<number[]>([])
   const [streak, setStreak] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [isChecking, setIsChecking] = useState(false)
+  const [currentStep, setCurrentStep] = useState<{ stepNumber: number; tasksDone: number; tasksTotal: number } | null>(null)
+  const [nextStep, setNextStep] = useState<number | null>(null)
   const [goals, setGoals] = useState<Goal[]>([])
   const [gratitudes, setGratitudes] = useState<Gratitude[]>([])
   const [achievementStats, setAchievementStats] = useState<AchievementStats | null>(null)
@@ -82,6 +85,7 @@ export default function DashboardPage() {
           fetchGoals()
           fetchGratitudes()
           fetchAchievements()
+          fetchStepProgress()
         }
       } catch (error) {
         console.error('Error loading user:', error)
@@ -92,46 +96,42 @@ export default function DashboardPage() {
     loadUser()
   }, [])
 
-  const fetchGoals = async () => {
+  const fetchStepProgress = async () => {
     try {
-      const res = await fetch('/api/goals')
-      if (!res.ok) throw new Error('Failed to fetch goals')
+      const res = await fetch('/api/checkin')
+      if (!res.ok) return
       const data = await res.json()
       if (data.success) {
-        setGoals(data.goals || [])
+        setCurrentStep(data.currentStep ?? null)
+        setNextStep(data.nextStep?.stepNumber ?? null)
       }
     } catch (error) {
-      console.error('Error fetching goals:', error)
+      console.error('Error fetching step progress:', error)
     }
   }
 
-  const fetchGratitudes = async () => {
+  const handleCheckIn = async (step?: number) => {
+    setIsChecking(true)
     try {
-      const res = await fetch('/api/gratitude')
-      if (!res.ok) throw new Error('Failed to fetch gratitudes')
-      const data = await res.json()
-      if (data.success) {
-        setGratitudes(data.gratitudes || [])
-      }
-    } catch (error) {
-      console.error('Error fetching gratitudes:', error)
-    }
-  }
-
-  const fetchAchievements = async () => {
-    try {
-      const res = await fetch('/api/achievements')
-      if (!res.ok) throw new Error('Failed to fetch achievements')
-      const data = await res.json()
-      if (data.success) {
-        setAchievementStats(data.stats)
-        if (data.stats) {
-          setStreak(data.stats.currentStreak || 0)
-          setCompletedSteps(Array.from({ length: data.stats.completedSteps || 0 }, (_, i) => i + 1))
+      const res = await fetch('/api/checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stepNumber: step ?? undefined }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        if (data.success && data.checkin) {
+          setCurrentStep(data.currentStep ?? null)
+          setNextStep(data.nextStep?.stepNumber ?? null)
+          if (step) {
+            void router.push(`/steps?step=${step}`)
+          }
         }
       }
     } catch (error) {
-      console.error('Error fetching achievements:', error)
+      console.error('Error creating check-in:', error)
+    } finally {
+      setIsChecking(false)
     }
   }
 
@@ -284,6 +284,50 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Check-in + Step Spotlight */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="w-5 h-5" />
+              {t('Check-in & Step Spotlight', 'التدقيق والخطوة الأساسية')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {currentStep ? (
+              <div className="p-3 rounded-lg bg-primary/5">
+                <p className="text-sm font-medium">{t('You are on Step', 'أنت على الخطوة')} {currentStep.stepNumber}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t('Progress', 'التقدم')} {currentStep.tasksDone}/{currentStep.tasksTotal}
+                </p>
+                {nextStep && nextStep !== currentStep.stepNumber && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => handleCheckIn(nextStep)}
+                  >
+                    <ArrowRight className="w-4 h-4 mr-2" />
+                    {t('Go to Step', 'انتقل للخطوة')} {nextStep}
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <div className="p-3 rounded-lg bg-muted/50">
+                <p className="text-sm text-muted-foreground">{t('No check-in yet today', 'لم تحضر دخول اليوم')}</p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                  onClick={() => handleCheckIn()}
+                >
+                  <CheckCircle2 className="w-4 h-4 mr-2" />
+                  {t('Do check-in now', 'أداء تدقيق اليوم')}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Quick Actions */}
         <Card>

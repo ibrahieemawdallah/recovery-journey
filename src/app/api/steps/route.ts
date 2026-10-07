@@ -124,6 +124,7 @@ export async function GET(request: NextRequest) {
 
     const completedCount = steps.filter((s) => s.completed).length
     const inProgress = steps.filter((s) => s.status === 'in_progress')
+    const nextStep = steps.find((s) => s.status !== 'completed')?.stepNumber ?? null
 
     return NextResponse.json({
       success: true,
@@ -131,7 +132,7 @@ export async function GET(request: NextRequest) {
       summary: {
         completed: completedCount,
         inProgress: inProgress.length,
-        nextStep: steps.find((s) => !s.completed)?.stepNumber ?? null,
+        nextStep,
         percent: Math.round((completedCount / 12) * 100),
       },
     })
@@ -149,16 +150,34 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { action, stepNumber } = body
+    const { action, stepNumber, jumpTo } = body
 
-    const n = Number(stepNumber)
-    if (!Number.isInteger(n) || n < 1 || n > 12) {
-      return NextResponse.json({ success: false, error: 'stepNumber must be 1-12' }, { status: 400 })
+    let n: number | null = null
+    if (stepNumber != null) {
+      n = Number(stepNumber)
+      if (!Number.isInteger(n) || n < 1 || n > 12) {
+        return NextResponse.json({ success: false, error: 'stepNumber must be 1-12' }, { status: 400 })
+      }
+    } else if (jumpTo != null) {
+      n = Number(jumpTo)
+      if (!Number.isInteger(n) || n < 1 || n > 12) {
+        return NextResponse.json({ success: false, error: 'jumpTo must be 1-12' }, { status: 400 })
+      }
     }
 
-    await ensureProgress(user.id, n)
+    if (n) {
+      await ensureProgress(user.id, n)
+      await db.stepProgress.update({
+        where: { userId_stepNumber: { userId: user.id, stepNumber: n } },
+        data: { status: 'in_progress', lastWorkedAt: new Date() },
+      })
+      const updated = await syncStatus(user.id, n)
+      return NextResponse.json({ success: true, progress: updated })
+    }
 
-    switch (action) {
+    // Backward-compatible default action
+    const { action: a } = body as any
+    switch (a) {
       case 'toggleTask': {
         const { taskIndex } = body
         const task = await db.stepTask.findUnique({

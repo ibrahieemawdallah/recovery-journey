@@ -64,6 +64,25 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // If a stepNumber was provided, move the user there and sync
+    if (stepNumber != null) {
+      const n = Number(stepNumber)
+      if (Number.isInteger(n) && n >= 1 && n <= 12) {
+        await db.stepProgress.upsert({
+          where: { userId_stepNumber: { userId, stepNumber: n } },
+          create: {
+            userId,
+            stepNumber: n,
+            status: 'in_progress',
+            tasks: {
+              create: TWELVE_STEPS_CONTENT.find((s) => s.number === n)?.howToWork.en.map((t, i) => ({ taskIndex: i, title: t })) ?? []
+            }
+          },
+          update: { status: 'in_progress', lastWorkedAt: new Date() }
+        })
+      }
+    }
+
     return NextResponse.json({ success: true, checkin })
   } catch (error) {
     console.error('Error creating check-in:', error)
@@ -94,27 +113,31 @@ export async function GET(request: NextRequest) {
       take: limit
     })
 
-    // Also return the user's current step so the UI can show
-    // "You are working on Step X" with tailored suggestions.
+    // Current step: the one that is in_progress (or the one user most recently worked)
     const stepProgress = await db.stepProgress.findMany({
       where: { userId: sessionUser.id },
-      orderBy: { stepNumber: 'asc' },
+      orderBy: { lastWorkedAt: 'desc' },
     })
+    const currentStep = stepProgress.find((p) => p.status === 'in_progress') ?? stepProgress[0] ?? null
 
-    const currentStep = stepProgress.find((p) => p.status === 'in_progress')
-    const nextStep = stepProgress.find((p) => p.status === 'not_started')
+    let currentStepInfo = null
+    if (currentStep) {
+      const tasks = await db.stepTask.count({ where: { userId: sessionUser.id, stepNumber: currentStep.stepNumber, done: true } })
+      const total = await db.stepTask.count({ where: { userId: sessionUser.id, stepNumber: currentStep.stepNumber } })
+      currentStepInfo = {
+        stepNumber: currentStep.stepNumber,
+        status: currentStep.status,
+        tasksDone: tasks,
+        tasksTotal: total,
+      }
+    }
+
+    const nextStep = stepProgress.find((p) => p.status === 'not_started') ?? null
 
     return NextResponse.json({
       success: true,
       checkins,
-      currentStep: currentStep
-        ? {
-            stepNumber: currentStep.stepNumber,
-            status: currentStep.status,
-            tasksDone: 0,
-            tasksTotal: 0,
-          }
-        : null,
+      currentStep: currentStepInfo,
       nextStep: nextStep
         ? {
             stepNumber: nextStep.stepNumber,
