@@ -110,6 +110,51 @@ export default function DashboardPage() {
     }
   }
 
+  const fetchGoals = async () => {
+    try {
+      const res = await fetch('/api/goals')
+      if (!res.ok) return
+      const data = await res.json()
+      if (data.success) setGoals(data.goals ?? [])
+    } catch (error) {
+      console.error('Error fetching goals:', error)
+    }
+  }
+
+  const fetchGratitudes = async () => {
+    try {
+      const res = await fetch('/api/gratitude')
+      if (!res.ok) return
+      const data = await res.json()
+      if (data.success) setGratitudes(data.gratitudes ?? [])
+    } catch (error) {
+      console.error('Error fetching gratitude entries:', error)
+    }
+  }
+
+  const fetchAchievements = async () => {
+    try {
+      const res = await fetch('/api/achievements')
+      if (!res.ok) return
+      const data = await res.json()
+      if (data.success) {
+        const stats = data.stats ?? {}
+        setAchievementStats({
+          completedSteps: stats.completedSteps ?? 0,
+          journalCount: stats.journalCount ?? 0,
+          gratitudeCount: stats.gratitudeCount ?? 0,
+          completedGoals: stats.completedGoals ?? 0,
+          currentStreak: stats.currentStreak ?? 0,
+          longestStreak: stats.longestStreak ?? 0,
+          totalDays: stats.totalDays ?? 0,
+        })
+        setStreak(stats.currentStreak ?? 0)
+      }
+    } catch (error) {
+      console.error('Error fetching achievements:', error)
+    }
+  }
+
   const handleCheckIn = async (step?: number) => {
     setIsChecking(true)
     try {

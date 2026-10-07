@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import {
   BookOpen, Check, ChevronDown, ChevronUp, Award, Lock,
   Lightbulb, ListChecks, Quote, Flag, Clock, Target, Loader2, Play, Circle,
+  Phone, FileText,
 } from 'lucide-react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { CrisisButton } from '@/components/layout/CrisisButton'
@@ -97,6 +98,18 @@ export default function StepsPage() {
       setLoadingDetail(null)
     }
   }, [])
+
+  // Deep link: /steps?step=N opens that step expanded.
+  useEffect(() => {
+    const stepParam = new URLSearchParams(window.location.search).get('step')
+    if (stepParam) {
+      const n = Number(stepParam)
+      if (Number.isInteger(n) && n >= 1 && n <= 12) {
+        setExpanded(n)
+        void loadDetail(n)
+      }
+    }
+  }, [loadDetail])
 
   const toggleExpand = (n: number) => {
     if (expanded === n) {
@@ -243,7 +256,7 @@ export default function StepsPage() {
                           : locked
                           ? 'bg-muted text-muted-foreground'
                           : status === 'in_progress'
-                          ? 'bg-warning-muted0 text-white'
+                          ? 'bg-warning-muted text-white'
                           : 'bg-primary/10 text-primary'
                       }`}
                     >
@@ -318,6 +331,17 @@ export default function StepsPage() {
                           </p>
                         </section>
 
+                        {/* ---- Big Book quote ---- */}
+                        <section className="space-y-2">
+                          <h4 className="flex items-center gap-2 font-semibold text-sm">
+                            <Quote className="w-4 h-4 text-accent-foreground" />
+                            {t('From the Big Book', 'من الكتاب الأزرق')}
+                          </h4>
+                          <blockquote className="border-s-2 border-accent-foreground/40 ps-3 text-sm text-muted-foreground italic leading-relaxed">
+                            {step.bigBookQuote[language]}
+                          </blockquote>
+                        </section>
+
                         {/* ---- crisis banner for the hardest steps ---- */}
                         {(step.number === 8 || step.number === 9) && (
                           <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
@@ -367,6 +391,23 @@ export default function StepsPage() {
                             }
                           />
                         )}
+
+                        <section className="space-y-2">
+                          <h4 className="flex items-center gap-2 font-semibold text-sm">
+                            <ListChecks className="w-4 h-4 text-primary" />
+                            {t('How to work this step', 'كيف تعمل هذه الخطوة')}
+                          </h4>
+                          <ul className="space-y-1.5">
+                            {step.howToWork[language].map((item, i) => (
+                              <li key={i} className="flex gap-2 text-sm text-muted-foreground">
+                                <span className="w-5 shrink-0 flex items-center justify-center rounded-full bg-primary/10 text-primary font-medium text-xs">
+                                  {i + 1}
+                                </span>
+                                <span className="leading-relaxed">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </section>
 
                         <section className="space-y-2">
                           <h4 className="flex items-center gap-2 font-semibold text-sm">

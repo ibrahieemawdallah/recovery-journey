@@ -55,6 +55,10 @@ export const STEPS_7_TO_12: StepContent[] = [
       en: 'The asking takes minutes; the practice is ongoing and never formally finishes.',
       ar: 'الطلب يستغرق دقائق؛ أما الممارسة فمستمرة ولا تنتهي رسمياً.',
     },
+    bigBookQuote: {
+      en: 'Humbly asked Him to remove our shortcomings.',
+      ar: 'طلبنا بتواضع أن يزيل عيوبنا.',
+    },
   },
   {
     number: 8,
@@ -106,6 +110,10 @@ export const STEPS_7_TO_12: StepContent[] = [
     typicalDuration: {
       en: 'Often a few days to a couple of weeks, drawn directly from the step-four work.',
       ar: 'غالباً من بضعة أيام إلى أسبوعين، مستخرجة مباشرة من عمل الخطوة الرابعة.',
+    },
+    bigBookQuote: {
+      en: 'We made a list of all persons we had harmed and became willing to make amends to them all.',
+      ar: 'وضعنا قائمة بكل من أذيناهم، وصرنا مستعدين للتعويض لهم جميعاً.',
     },
   },
   {
@@ -163,6 +171,10 @@ export const STEPS_7_TO_12: StepContent[] = [
       en: 'The longest action step — commonly several months, sometimes over a year, done in order of severity.',
       ar: 'أطول خطوة عملية — عادةً عدة أشهر، وأحياناً أكثر من سنة، وتُنفَّذ بحسب درجة الجسامة.',
     },
+    bigBookQuote: {
+      en: 'Made direct amends to such people wherever possible, except when to do so would injure them or others.',
+      ar: 'قدّمنا تعويضاً مباشراً لهؤلاء حيث أمكن، إلا حين كان ذلك سيؤذيهم أو يؤذي آخرين.',
+    },
   },
   {
     number: 10,
@@ -215,6 +227,10 @@ export const STEPS_7_TO_12: StepContent[] = [
       en: 'Permanent. This is the step you do for the rest of your life.',
       ar: 'دائمة. هذه هي الخطوة التي تمارسها لبقية حياتك.',
     },
+    bigBookQuote: {
+      en: 'Continued to take personal inventory and when we were wrong promptly admitted it.',
+      ar: 'واصلنا أخذ جرد شخصي، وحين أخطأنا اعترفنا بذلك فوراً.',
+    },
   },
   {
     number: 11,
@@ -266,6 +282,10 @@ export const STEPS_7_TO_12: StepContent[] = [
     typicalDuration: {
       en: 'Permanent, alongside step ten. Usually established after step nine is largely complete.',
       ar: 'دائمة، إلى جانب الخطوة العاشرة. وعادةً تُرسَّخ بعد إتمام معظم الخطوة التاسعة.',
+    },
+    bigBookQuote: {
+      en: 'Sought through prayer and meditation to improve our conscious contact with God, as we understood Him, praying only for knowledge of His will for us and the power to carry that out.',
+      ar: 'سعينا بالصلاة والتأمل لتحسين اتصالنا الواعي بالله كما فهمناه، طالبين فقط معرفة مشيئته لنا والقوة لتنفيذها.',
     },
   },
   {
@@ -320,6 +340,10 @@ export const STEPS_7_TO_12: StepContent[] = [
     typicalDuration: {
       en: 'Permanent. Often the step that people say finally makes the previous eleven feel worth it.',
       ar: 'دائمة. وغالباً هي الخطوة التي يقول الناس إنها أخيراً جعلت الإحدى عشرة السابقة تستحق العناء.',
+    },
+    bigBookQuote: {
+      en: 'Having had a spiritual awakening as the result of these steps, we tried to carry this message to others, and to practice these principles in all our affairs.',
+      ar: 'بعد أن مررنا بصحوة روحية نتيجة هذه الخطوات، حاولنا نقل هذه الرسالة للآخرين، وممارسة هذه المبادئ في كل شؤوننا.',
     },
   },
 ]

@@ -82,7 +82,7 @@ export function CalendarPicker({ value, onChange, language = 'en' }: CalendarPic
   const daysInMonth = getDaysInMonth(currentMonth, currentYear)
   const firstDay = getFirstDayOfMonth(currentMonth, currentYear)
 
-  const calendarDays = []
+  const calendarDays: (number | null)[] = []
   for (let i = 0; i < firstDay; i++) {
     calendarDays.push(null)
   }

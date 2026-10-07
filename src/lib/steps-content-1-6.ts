@@ -26,6 +26,8 @@ export type StepContent = {
   completionSigns: { en: string[]; ar: string[] }
   /** Rough guidance, not a deadline. */
   typicalDuration: { en: string; ar: string }
+  /** A brief Big Book passage related to the step. */
+  bigBookQuote: { en: string; ar: string }
 }
 
 export const STEPS_1_TO_6: StepContent[] = [
@@ -78,12 +80,16 @@ export const STEPS_1_TO_6: StepContent[] = [
       en: 'Usually the first thing you do, and often revisited. Most people spend days to a few weeks writing the inventory, then return to it when denial resurfaces.',
       ar: 'عادةً أول ما تفعله، ويُعاد إليه كثيراً. يقضي معظم الناس أياماً إلى بضعة أسابيع في كتابة الجرد، ثم يعودون إليه حين يعود الإنكار.',
     },
+    bigBookQuote: {
+      en: 'We admitted we were powerless over our addiction — that our lives had become unmanageable.',
+      ar: 'اعترفنا بأننا عاجزون عن التحكم في إدماننا — وأن حياتنا أصبحت غير قابلة للإدارة.',
+    },
   },
   {
     number: 2,
     title: {
       en: 'Came to believe that a Power greater than ourselves could restore us to sanity.',
-      ar: 'بدأنا نؤمن بأن قوة أعظم منا قادرة على إعادة sanity إلينا.',
+      ar: 'بدأنا نؤمن بأن قوة أعظم منا قادرة على إعادتنا إلى الصواب.',
     },
     shortTitle: { en: 'Hope', ar: 'الأمل' },
     whatItMeans: {
@@ -127,6 +133,10 @@ export const STEPS_1_TO_6: StepContent[] = [
     typicalDuration: {
       en: 'Often grows slowly alongside step three. Some people settle it in days; for others it is the work of months.',
       ar: 'غالباً ينمو ببطء مع الخطوة الثالثة. البعض يحسمها في أيام، وآخرون يستغرقون أشهراً.',
+    },
+    bigBookQuote: {
+      en: 'Came to believe that a Power greater than ourselves could restore us to sanity.',
+      ar: 'بدأنا نؤمن بأن قوة أعظم منا قادرة على إعادتنا إلى الصواب.',
     },
   },
   {
@@ -178,6 +188,10 @@ export const STEPS_1_TO_6: StepContent[] = [
       en: 'A single decision, renewed daily. Most people revisit it whenever control resurfaces.',
       ar: 'قرار واحد، يُجدَّد يومياً. يعود إليه معظم الناس كلما عاد التحكم للظهور.',
     },
+    bigBookQuote: {
+      en: 'Made a decision to turn our will and our lives over to the care of God as we understood Him.',
+      ar: 'اتخذنا قراراً بتسليم إرادتنا وحياتنا لعناية الله كما فهمناه.',
+    },
   },
   {
     number: 4,
@@ -192,7 +206,7 @@ export const STEPS_1_TO_6: StepContent[] = [
     },
     howToWork: {
       en: [
-        'Make four columns on paper: resentment, the person or thing, my part in it, and what it affected in me (fear, pride, security, pride, sex relations).',
+        'Make four columns on paper: resentment, the person or thing, my part in it, and what it affected in me (fear, pride, security, sex relations).',
         'List your resentments first — everyone and everything you still carry anger toward, going back as far as you can remember.',
         'For each one, find your part honestly. Sometimes it is 90%, sometimes it is 5%. Write the actual number you believe.',
         'List your fears separately, then ask of each: what would I do differently if this fear were removed?',
@@ -231,6 +245,10 @@ export const STEPS_1_TO_6: StepContent[] = [
     typicalDuration: {
       en: 'Commonly one to several weeks of writing. Rushing it defeats the purpose; the writing is where the insight happens.',
       ar: 'عادةً من أسبوع إلى عدة أسابيع من الكتابة. الاستعجال يُفقد الغرض؛ فالكتابة هي مكان الاستبصار.',
+    },
+    bigBookQuote: {
+      en: 'Made a searching and fearless moral inventory of ourselves.',
+      ar: 'أجرينا جرداً أخلاقياً دقيقاً وشجاعاً لأنفسنا.',
     },
   },
   {
@@ -284,6 +302,10 @@ export const STEPS_1_TO_6: StepContent[] = [
       en: 'Usually one sitting, sometimes two. The preparation can take longer than the telling.',
       ar: 'عادةً جلسة واحدة، وأحياناً اثنتان. التحضير قد يستغرق وقتاً أطول من القول نفسه.',
     },
+    bigBookQuote: {
+      en: 'Admitted to God, to ourselves, and to another human being the exact nature of our wrongs.',
+      ar: 'اعترفنا لله، ولأنفسنا، ولإنسان آخر بالطبيعة الدقيقة لأخطائنا.',
+    },
   },
   {
     number: 6,
@@ -333,6 +355,10 @@ export const STEPS_1_TO_6: StepContent[] = [
     typicalDuration: {
       en: 'Usually short — days, sometimes a single sitting. It is a hinge between the inventory and the asking.',
       ar: 'عادةً قصيرة — أيام، وأحياناً جلسة واحدة. وهي مفصل بين الجرد والطلب.',
+    },
+    bigBookQuote: {
+      en: 'Were entirely ready to have God remove all these defects of character.',
+      ar: 'صرنا مستعدين تماماً لأن يزيل الله كل عيوب الشخصية هذه.',
     },
   },
 ]

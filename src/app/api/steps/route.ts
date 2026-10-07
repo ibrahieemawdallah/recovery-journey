@@ -165,19 +165,31 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    if (n) {
+    // A request with a step but no action: move the user to that step.
+    // (The legacy { stepNumber, completed, notes } shape also carries no action.)
+    if (n && !action) {
+      const { completed, notes } = body
       await ensureProgress(user.id, n)
       await db.stepProgress.update({
         where: { userId_stepNumber: { userId: user.id, stepNumber: n } },
-        data: { status: 'in_progress', lastWorkedAt: new Date() },
+        data: {
+          status: 'in_progress',
+          lastWorkedAt: new Date(),
+          ...(completed !== undefined
+            ? { completed, completedAt: completed ? new Date() : null }
+            : {}),
+          ...(notes !== undefined ? { notes } : {}),
+        },
       })
       const updated = await syncStatus(user.id, n)
       return NextResponse.json({ success: true, progress: updated })
     }
 
-    // Backward-compatible default action
-    const { action: a } = body as any
-    switch (a) {
+    if (!n) {
+      return NextResponse.json({ success: false, error: 'stepNumber is required' }, { status: 400 })
+    }
+
+    switch (action) {
       case 'toggleTask': {
         const { taskIndex } = body
         const task = await db.stepTask.findUnique({
@@ -220,7 +232,7 @@ export async function POST(request: NextRequest) {
           data: {
             userId: user.id,
             stepNumber: n,
-            taskIndex: (max._max.taskIndex ?? -1) + 1,
+            taskIndex: (max._max?.taskIndex ?? -1) + 1,
             title: String(title).trim(),
           },
         })

@@ -116,7 +116,7 @@ const PEER_ROLES = {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { userId, severity, situation, usedCopingStrategy, outcome } = body
+    const { userId, severity, situation, usedCopingStrategy, outcome, message } = body
 
     if (!userId) {
       return NextResponse.json(
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate severity
-    if (!severity || !['low', 'medium', 'high', 'critical']) {
+    if (!severity || !['low', 'medium', 'high', 'critical'].includes(severity)) {
       return NextResponse.json(
         { success: false, error: 'Severity must be one of: low, medium, high, critical' },
         { status: 400 }
@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
       data: {
         userId,
         userName: 'System', // System-generated
-        group: 'crisis',
+        groupName: 'crisis',
         message: `CRISIS REPORT - Severity: ${severity}, Situation: ${situation}, Outcome: ${outcome}`
       }
     })

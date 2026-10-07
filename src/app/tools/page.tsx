@@ -7,11 +7,12 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Progress } from '@/components/ui/progress'
 import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { CrisisButton } from '@/components/layout/CrisisButton'
-import { Wind, Brain, Heart, Shield, Play, Pause, RotateCcw, Timer, Volume2, Eye, Hand, Footprints, Music, Sun, Moon, Droplets, Zap, Leaf, Anchor, Loader2, Plus, Activity, Users } from 'lucide-react'
+import { Wind, Brain, Heart, Shield, Play, Pause, RotateCcw, Timer, Volume2, Eye, Hand, Footprints, Music, Sun, Moon, Droplets, Zap, Leaf, Anchor, Loader2, Plus, Activity, Users, FileText } from 'lucide-react'
 
 const BREATHING_EXERCISES = [
   { id: 'box-breathing', name: 'Box Breathing', nameAr: 'تنفس الصندوق', duration: '4 min', description: 'Inhale 4s, Hold 4s, Exhale 4s, Hold 4s', pattern: [4, 4, 4, 4], icon: Wind },

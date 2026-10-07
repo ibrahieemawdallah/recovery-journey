@@ -86,7 +86,7 @@ export const translations = {
     helpRequests: 'Help Requests',
     sessions: 'Sessions',
     reviews: 'Reviews',
-    notifications: 'Notifications',
+    communityNotifications: 'Notifications',
 
     // Profile
     achievements: 'Achievements',
@@ -188,7 +188,7 @@ export const translations = {
     helpRequests: 'طلبات المساعدة',
     sessions: 'الجلسات',
     reviews: 'التقييمات',
-    notifications: 'الإشعارات',
+    communityNotifications: 'الإشعارات',
 
     // Profile
     achievements: 'الإنجازات',

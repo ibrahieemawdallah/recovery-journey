@@ -174,7 +174,7 @@ export default function HomePage() {
           </TabsList>
 
           <TabsContent value="home" className="space-y-6">
-            <SobrietyCounter startDate={userData.recoveryDate || '2024-01-01'} />
+            <SobrietyCounter />
             <QuickActions />
             <StatsOverview />
             <DailyQuote />

@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { getSessionUser } from '@/lib/auth'
+import { TWELVE_STEPS_CONTENT } from '@/lib/steps-content'
 
 // POST /api/checkin - Create or update daily check-in
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { mood, energy, stress, triggers, notes } = body
+    const { mood, energy, stress, triggers, notes, stepNumber } = body
 
     const sessionUser = await getSessionUser(request)
     if (!sessionUser) {
@@ -18,6 +19,12 @@ export async function POST(request: NextRequest) {
 
     const userId = sessionUser.id
     const today = new Date().toISOString().split('T')[0]
+
+    // The dashboard's quick check-in sends no mood/energy/stress, but the
+    // schema requires them — fall back to neutral defaults.
+    const moodValue = typeof mood === 'string' && mood ? mood : 'calm'
+    const energyValue = Number.isFinite(parseInt(energy)) ? parseInt(energy) : 5
+    const stressValue = typeof stress === 'string' && stress ? stress : 'low'
 
     // Check if check-in already exists for today
     const existing = await db.dailyCheckin.findFirst({
@@ -35,9 +42,9 @@ export async function POST(request: NextRequest) {
       checkin = await db.dailyCheckin.update({
         where: { id: existing.id },
         data: {
-          mood,
-          energy: parseInt(energy),
-          stress,
+          mood: moodValue,
+          energy: energyValue,
+          stress: stressValue,
           triggers: Array.isArray(triggers) ? JSON.stringify(triggers) : triggers,
           notes
         }
@@ -46,9 +53,9 @@ export async function POST(request: NextRequest) {
       checkin = await db.dailyCheckin.create({
         data: {
           userId,
-          mood,
-          energy: parseInt(energy),
-          stress,
+          mood: moodValue,
+          energy: energyValue,
+          stress: stressValue,
           triggers: Array.isArray(triggers) ? JSON.stringify(triggers) : triggers,
           notes
         }
@@ -120,7 +127,12 @@ export async function GET(request: NextRequest) {
     })
     const currentStep = stepProgress.find((p) => p.status === 'in_progress') ?? stepProgress[0] ?? null
 
-    let currentStepInfo = null
+    let currentStepInfo: {
+      stepNumber: number
+      status: string
+      tasksDone: number
+      tasksTotal: number
+    } | null = null
     if (currentStep) {
       const tasks = await db.stepTask.count({ where: { userId: sessionUser.id, stepNumber: currentStep.stepNumber, done: true } })
       const total = await db.stepTask.count({ where: { userId: sessionUser.id, stepNumber: currentStep.stepNumber } })

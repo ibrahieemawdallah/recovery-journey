@@ -141,7 +141,7 @@ export default function ProfilePage() {
         })
 
         // Also fetch achievements for stats
-        fetchAchievements(user.id)
+        fetchAchievements()
       }
     } catch (error) {
       console.error('Error fetching user:', error)

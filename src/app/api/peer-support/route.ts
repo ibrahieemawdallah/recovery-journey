@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       const sessions = await db.groupChatMessage.findMany({
         where: {
           userId,
-          group: 'peer-support'
+          groupName: 'peer-support'
         },
         orderBy: { timestamp: 'desc' },
         take: limit

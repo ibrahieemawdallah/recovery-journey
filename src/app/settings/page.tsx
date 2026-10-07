@@ -83,10 +83,10 @@ export default function SettingsPage() {
           setUser(data.user)
           if (data.user.preferences) {
             const prefs: Preferences = JSON.parse(data.user.preferences)
-            if (prefs.theme) {
-              setTheme(prefs.theme)
-              localStorage.setItem('theme', prefs.theme)
-            }
+if (prefs.theme) {
+                setTheme((prefs.theme as 'system' | 'light' | 'dark') || 'system')
+                localStorage.setItem('theme', prefs.theme)
+              }
             if (prefs.notifications) {
               setNotifications(prefs.notifications)
               localStorage.setItem('notificationPrefs', JSON.stringify(prefs.notifications))
